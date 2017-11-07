@@ -39,7 +39,7 @@ if(cluster.isMaster) {
       res.send(`Process ${process.pid} says hello at ${Date.now()}`).end();
     });
 
-    const server = app.listen(8000
+    const server = app.listen(process.env.PORT || 8000
       // ,
       // function() {
         // console.error('Process ' + process.pid + ' is listening to all incoming requests');
