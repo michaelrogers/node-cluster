@@ -1,11 +1,11 @@
 const cluster = require('cluster');
 // const debug = require('debug');
 
-if(cluster.isMaster) {
+// if(cluster.isMaster) {
     const numWorkers = require('os').cpus().length;
     // const numWorkers = 2;
     cluster.setupMaster({
-      // exec: 'worker.js',
+      exec: 'worker.js',
       args: ['--use', 'https'],
     });
     console.error(`Master: Process: ${process.pid} online; setting up ${numWorkers} workers...`);
@@ -32,17 +32,4 @@ if(cluster.isMaster) {
     })
 
 
-} else {
-    const app = require('express')();
-    app.all('/*', (req, res) => {
-      console.error(req.method + ' ' + req.url);
-      res.send(`Process ${process.pid} says hello at ${Date.now()}`).end();
-    });
-
-    const server = app.listen(process.env.PORT || 8000
-      // ,
-      // function() {
-        // console.error('Process ' + process.pid + ' is listening to all incoming requests');
-    //   }
-    );
-}
+// }
