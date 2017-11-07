@@ -1,20 +1,19 @@
 const cluster = require('cluster');
-// const debug = require('debug');
 
 // if(cluster.isMaster) {
-    const numWorkers = require('os').cpus().length;
-    // const numWorkers = 2;
+    const numWorkers =  process.env.workers || require('os').cpus().length;
     cluster.setupMaster({
       exec: 'worker.js',
       args: ['--use', 'https'],
     });
+
     console.error(`Master: Process: ${process.pid} online; setting up ${numWorkers} workers...`);
 
     for(let i = 0; i < numWorkers; i++) {
         cluster.fork();
     }
 
-    cluster.on('online', (worker) => {
+    cluster.on('online', worker => {
       // console.error('Worker ' + worker.process.pid + ' is online');
       // setTimeout(() => {
       //   worker.kill();
