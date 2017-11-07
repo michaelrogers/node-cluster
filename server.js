@@ -1,6 +1,9 @@
 const cluster = require('cluster');
 // const debug = require('debug');
-
+cluster.setupMaster({
+  // exec: 'worker.js',
+  args: ['--use', 'https'],
+});
 if(cluster.isMaster) {
     const numWorkers = require('os').cpus().length;
     // const numWorkers = 2;
@@ -13,9 +16,9 @@ if(cluster.isMaster) {
 
     cluster.on('online', (worker) => {
       // console.error('Worker ' + worker.process.pid + ' is online');
-      setTimeout(() => {
-        worker.kill();
-      }, 100000 * Math.random());
+      // setTimeout(() => {
+      //   worker.kill();
+      // }, 100000 * Math.random());
     });
 
     cluster.on('exit', (worker, code, signal) => {
