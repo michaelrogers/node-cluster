@@ -1,13 +1,13 @@
 const cluster = require('cluster');
 // const debug = require('debug');
-cluster.setupMaster({
-  // exec: 'worker.js',
-  args: ['--use', 'https'],
-});
+
 if(cluster.isMaster) {
     const numWorkers = require('os').cpus().length;
     // const numWorkers = 2;
-
+    cluster.setupMaster({
+      // exec: 'worker.js',
+      args: ['--use', 'https'],
+    });
     console.error(`Master: Process: ${process.pid} online; setting up ${numWorkers} workers...`);
 
     for(let i = 0; i < numWorkers; i++) {
